@@ -1,33 +1,20 @@
 import React from 'react';
-import './App.css';
+import './app.css';
 
-class ToDoList extends React.Component{
-  render(){
-    return(
-      <ul>
-        {
-          this.props.todo.map((item,i)=>{
-            return (
-              <li key={i}>
-                <label>{item}</label>
-                <button onClick={()=>this.props.delData(i)}>delete</button>
-              </li>
-            )
-          })
-        }
-      </ul>
-    );
-  }
-}
 
+
+// todo 类
 class App extends React.Component{
   constructor(props) {
     super(props);
-    this.input = React.createRef()
     this.state = {
-      data:[]
+      data:[],
+      input:''
     };
+    this.addData = this.addData.bind(this)
+    this.onChange = this.onChange.bind(this);
   }
+  // 删除数据
   delData =(index)=>{
     var arr = this.state.data
     arr.splice(index,1)
@@ -35,20 +22,45 @@ class App extends React.Component{
       data:arr
     })
   }
+  // 添加数据
   addData(){
     var arr = this.state.data
-    arr.push(this.input.current.value)
+    arr.push(this.state.input)
     this.setState({
       data:arr
     })
   }
+  // onchange将input中数据放到state
+  onChange(e){
+    this.setState({
+      input:e.target.value
+    })
+  }
   render(){
+    // 渲染列表
+    function todoList(props,delData){
+      return(
+        <ul>
+          {
+            props.map((item,i)=>{
+              return (
+                <li key={i}>
+                  <label>{item}</label>
+                  <button onClick={()=>delData(i)}>delete</button>
+                </li>
+              )
+            })
+          }
+        </ul>
+      );
+    }
+    
     return (
       <div className="App">
         <p className='title'>TO DO</p>
-        <input ref={this.input}/>
-        <button onClick={()=>this.addData()}>add</button>
-        <ToDoList todo={this.state.data} delData={this.delData}/>
+        <input onChange={this.onChange}></input>
+        <button onClick={this.addData}>add</button>
+        {todoList(this.state.data,this.delData)}
       </div>
     );
   }
