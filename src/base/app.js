@@ -1,5 +1,5 @@
 import React from 'react';
-import './app.css';
+import '../css/app.css';
 
 
 
@@ -57,7 +57,7 @@ class App extends React.Component{
     
     return (
       <div className="App">
-        <p className='title'>TO DO</p>
+        <p className='title'>TO DO(base)</p>
         <input onChange={this.onChange}></input>
         <button onClick={this.addData}>add</button>
         {todoList(this.state.data,this.delData)}
