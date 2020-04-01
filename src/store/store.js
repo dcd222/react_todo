@@ -6,13 +6,11 @@ let currentId = 2;
 const initialState = {
     toDoList: [{
             id:1,
-            listname: 'coding',
-            completed: false
+            listname: 'coding'
         },
         {   
             id:2,
-            listname: 'studying',
-            completed: true
+            listname: 'studying'
         }
     ]
 }
@@ -26,15 +24,15 @@ const listReducer = function (state = initialState, action) {
             currentId ++;
             return {
                 ...state,
-                toDoList: [...state.toDoList, {id:currentId,listname:action.payload.listname,completed:true}]
+                toDoList: [...state.toDoList, {id:currentId,listname:action.payload.listname}]
             }
         }
 
         case delToStore: {
-            currentId ++;
-            state.toDoList.slice(1,action.payload.id)
             return {
-                
+                toDoList:state.toDoList.filter((item)=>{
+                    return item.id !== action.payload.id
+                })
             }
         }
 

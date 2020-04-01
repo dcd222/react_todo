@@ -8,27 +8,27 @@ class ReduxTodo extends React.Component{
     constructor(props) {
       super(props);
       this.state = {
-        data:[],
-        input:''
+        input:'',
+        data:store.getState().toDoList
       };
       this.addData = this.addData.bind(this)
       this.onChange = this.onChange.bind(this);
+      
+    }
+    refresh(){
+        this.setState({
+            data:store.getState().toDoList
+        })
     }
     // 删除数据
     delData =(index)=>{
-      var arr = this.state.data
-      arr.splice(index,1)
-      this.setState({
-        data:arr
-      })
+        store.dispatch(delData(index));
+        this.refresh()
     }
     // 添加数据
     addData(){
-      var arr = this.state.data
-      arr.push(this.state.input)
-      this.setState({
-        data:arr
-      })
+        store.dispatch(addData(this.state.input));
+        this.refresh()
     }
     // onchange将input中数据放到state
     onChange(e){
@@ -36,42 +36,37 @@ class ReduxTodo extends React.Component{
         input:e.target.value
       })
     }
-    render(){
-      // 渲染列表
-      function todoList(props,delData){
+    // 渲染列表
+    todoList(props,delData){
         return(
-          <ul>
+            <ul>
             {
-              props.map((item,i)=>{
+                props.map((item,i)=>{
                 return (
-                  <li key={i}>
-                    <label>{item}</label>
-                    <button onClick={()=>delData(i)}>delete</button>
-                  </li>
+                    <li key={item.id}>
+                    <label>{item.listname}</label>
+                    <button onClick={()=>delData(item.id)}>delete</button>
+                    </li>
                 )
-              })
+                })
             }
-          </ul>
+            </ul>
         );
-      }
-      
+    }
+    render(){
       return (
         <div className="App">
           <p className='title'>TO DO(redux)</p>
           <input onChange={this.onChange}></input>
           <button onClick={this.addData}>add</button>
-          {todoList(this.state.data,this.delData)}
+          {this.todoList(this.state.data,this.delData)}
         </div>
       );
     }
   }
-  
   export default ReduxTodo;
   
 
-store.dispatch(addData('1243'));
 
 // 取消监听
-unsubscribe();
-
-console.log(store.getState())
+// unsubscribe();
