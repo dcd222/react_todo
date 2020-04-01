@@ -1,5 +1,6 @@
-import {createStore} from "redux";
-
+import {createStore,applyMiddleware} from "redux";
+import * as actions from './action'
+import createSagaMiddleware from 'redux-saga'
 
 let currentId = 2;
 // 初始化数据
@@ -15,12 +16,11 @@ const initialState = {
     ]
 }
 
-const addToStore = 'addToStore';
-const delToStore = 'delToStore'
+
 // reducer
 const listReducer = function (state = initialState, action) {
     switch (action.type) {
-        case addToStore: {
+        case actions.addToStore: {
             currentId ++;
             return {
                 ...state,
@@ -28,7 +28,7 @@ const listReducer = function (state = initialState, action) {
             }
         }
 
-        case delToStore: {
+        case actions.delToStore: {
             return {
                 toDoList:state.toDoList.filter((item)=>{
                     return item.id !== action.payload.id
@@ -40,24 +40,7 @@ const listReducer = function (state = initialState, action) {
             return state;
     }
 }
-// action
-function addData(listname) {
-    return {
-        type: addToStore,
-        payload: {
-            listname
-        }
-    }
-}
 
-function delData(id) {
-    return {
-        type: delToStore,
-        payload: {
-            id
-        }
-    }
-}
 // 合并reducer
 // const allReducers = {
 //     products: productsReducer,
@@ -68,10 +51,19 @@ function delData(id) {
 
 let store = createStore(listReducer);
 
-console.log("initial state: ", store.getState());
+
+// saga使用
+
+// const sagaMiddleware = createSagaMiddleware()
+
+// const store = createStore(
+//     listReducer,
+//   applyMiddleware(sagaMiddleware)
+// )
+
 // 监听store
 let unsubscribe = store.subscribe(() =>
     console.log(store.getState())
 );
 
-export {store,addData,unsubscribe,delData} 
+export {store} 

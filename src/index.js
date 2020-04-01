@@ -2,8 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './base/app';
-import ReduxTodo from './redux/reduxTodo';
+import connect from './redux/reduxTodo';
 import * as serviceWorker from './serviceWorker';
+import { Provider } from 'react-redux';
+import {store} from './store/store'
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -16,7 +19,9 @@ ReactDOM.render((
     <Link to={'/redux'}>redux todo</Link>
     <Link to={'/'}>base todo</Link>
     <Switch>
-      <Route path='/redux' component={ReduxTodo}/>
+      <Provider store={store}>
+        <Route path='/redux' component={connect} />
+      </Provider>
       <Route path="/" component={App}/>
     </Switch>
   </Router>
