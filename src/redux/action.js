@@ -1,6 +1,7 @@
 // action
 export const addToStore = 'addToStore';
 export const delToStore = 'delToStore';
+export const todoLitsinput = 'todoLitsinput';
 export function addData(listname) {
     return {
         type: addToStore,
@@ -15,6 +16,15 @@ export function delData(id) {
         type: delToStore,
         payload: {
             id
+        }
+    }
+}
+
+export function onChange(e) {
+    return {
+        type: todoLitsinput,
+        payload: {
+            value:e.target.value
         }
     }
 }

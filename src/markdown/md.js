@@ -2,14 +2,17 @@ import React from 'react'
 import hljs  from 'highlight.js'
 import 'highlight.js/styles/github.css';
 import  './md.css'
+import {connect} from 'react-redux'
+import { bindActionCreators } from 'redux';
+import * as actions from './action';
+
 const marked = require('marked')
 
 class MDEditor extends React.Component{
-    constructor(props){
-        super(props)
-        this.state={
-            text:''
-        }
+        
+    
+    render(){
+        const {textArea,actions}  = this.props;//将props中的actions和toDoLits取出来  
         marked.setOptions({
             renderer: new marked.Renderer(),
             pedantic: false,
@@ -24,21 +27,17 @@ class MDEditor extends React.Component{
             smartypants: false,
             xhtml: false
         });
-        this.onChange = this.onChange.bind(this);
-    }
-    onChange(e){
-        this.setState({
-            text:e.target.value
-        })
-        console.log(this.state.text)
-    }
-    render(){
         return(
             <div className='mdEditor'>
-                <textarea onChange={this.onChange}></textarea>
-                <div className='showArea' dangerouslySetInnerHTML = {{__html:marked(this.state.text)}}></div>
+                <textarea onChange={(e)=>actions.onChange(e)}></textarea>
+                <div className='showArea' dangerouslySetInnerHTML = {{__html:marked(textArea)}}></div>
             </div>   
         )
     }
 }
-export default MDEditor
+
+export default connect(//生成容器组件
+    state => state.mdReducer,//建立state和组件props映射关系
+    dispatch => ({ actions: bindActionCreators(actions, dispatch) }),//把action绑定到connect中
+)(MDEditor);
+// export default MDEditor

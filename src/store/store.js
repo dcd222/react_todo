@@ -1,56 +1,22 @@
-import {createStore,applyMiddleware} from "redux";
-import * as actions from './action'
+import {createStore,applyMiddleware,combineReducers} from "redux";
 import createSagaMiddleware from 'redux-saga'
+import {listReducer} from '../redux/reducer'
+import {mdReducer} from '../markdown/reducer'
 
-let currentId = 2;
-// 初始化数据
-const initialState = {
-    toDoList: [{
-            id:1,
-            listname: 'coding'
-        },
-        {   
-            id:2,
-            listname: 'studying'
-        }
-    ]
-}
 
 
 // reducer
-const listReducer = function (state = initialState, action) {
-    switch (action.type) {
-        case actions.addToStore: {
-            currentId ++;
-            return {
-                ...state,
-                toDoList: [...state.toDoList, {id:currentId,listname:action.payload.listname}]
-            }
-        }
 
-        case actions.delToStore: {
-            return {
-                toDoList:state.toDoList.filter((item)=>{
-                    return item.id !== action.payload.id
-                })
-            }
-        }
-
-        default:
-            return state;
-    }
-}
 
 // 合并reducer
 // const allReducers = {
-//     products: productsReducer,
-//     shoppingCart: cartReducer
+//     listReducer: listReducer,
+//     mdReducer: mdReducer
 // }
 
-// const rootReducer = combineReducers(reducer);用来合并reducer
-
-let store = createStore(listReducer);
-
+const rootReducer = combineReducers({mdReducer,listReducer});
+// 用来合并reducer
+let store = createStore(rootReducer);
 
 // saga使用
 
