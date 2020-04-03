@@ -1,7 +1,9 @@
 // action
 export const addToStore = 'addToStore';
 export const delToStore = 'delToStore';
-export const todoLitsinput = 'todoLitsinput';
+// export const todoLitsinput = 'todoLitsinput';
+export const todoLitsinput = 'mdText';
+
 export function addData(listname) {
     return {
         type: addToStore,
