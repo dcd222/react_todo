@@ -36,17 +36,23 @@ class App extends React.Component{
       input:e.target.value
     })
   }
+  reverse(){
+    this.setState({
+      data:this.state.data.reverse()
+    })
+    console.log(this.state.data)
+  }
   render(){
     // 渲染列表
     function todoList(props,delData){
       return(
         <ul>
           {
-            props.map((item,i)=>{
+            props.map((item,index)=>{
               return (
-                <li key={i}>
+                <li key={index}>
                   <label>{item}</label>
-                  <button onClick={()=>delData(i)}>delete</button>
+                  <button onClick={()=>delData(index)}>delete</button>
                 </li>
               )
             })
@@ -60,6 +66,7 @@ class App extends React.Component{
         <p className='title'>TO DO(base)</p>
         <input onChange={this.onChange}></input>
         <button onClick={this.addData}>add</button>
+        <button onClick={()=>this.reverse()}>reverse</button>
         {todoList(this.state.data,this.delData)}
       </div>
     );

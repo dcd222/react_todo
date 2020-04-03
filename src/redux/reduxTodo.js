@@ -29,7 +29,7 @@ class ReduxTodo extends React.Component{
             {
                 props.map((item,i)=>{
                 return (
-                    <li key={item.id}>
+                    <li key={i}>
                     <label>{item.listname}</label>
                     <button onClick={()=>delData(item.id)}>delete</button>
                     </li>

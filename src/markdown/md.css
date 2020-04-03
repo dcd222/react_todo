@@ -1,0 +1,11 @@
+.mdEditor{
+    width: 100%;
+    min-height: 400px;
+    display: flex;
+}
+textarea{
+    flex: 1;
+}
+.showArea{
+    flex: 1;
+}
