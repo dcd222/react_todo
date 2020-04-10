@@ -3,26 +3,18 @@ import * as actions from './action'
 let currentId = 2;
 // 初始化数据
 const initialState = {
-    toDoList: [{
-            id:1,
-            listname: 'coding'
-        },
-        {   
-            id:2,
-            listname: 'studying'
-        }
+    toDoList: [
     ],
     input:''
 }
 
 export const listReducer = function (state = initialState, action) {
-    
+    console.log(action)
     switch (action.type) {
         case actions.addToStore: {
-            currentId ++;
             return {
                 ...state,
-                toDoList: [...state.toDoList, {id:currentId,listname:action.payload.listname}]
+                toDoList: [...state.toDoList, {id:action.payload.id,listname:action.payload.listname}]
             }
         }
 
@@ -38,6 +30,13 @@ export const listReducer = function (state = initialState, action) {
             return {
                 ...state,
                 input:action.payload.value
+            }
+        }
+
+        case actions.initTodolist: {
+            return {
+                ...state,
+                toDoList: action.payload.data
             }
         }
 

@@ -2,6 +2,7 @@
 export const addToStore = 'addToStore';
 export const delToStore = 'delToStore';
 export const todoLitsinput = 'todoLitsinput';
+export const initTodolist = 'initTodolist';
 // export const todoLitsinput = 'mdText';
 
 
@@ -26,8 +27,21 @@ export function delData(id) {
 export function onChange(e) {
     return {
         type: todoLitsinput,
+        components: 'listReducer',
         payload: {
             value:e.target.value
         }
     }
+}
+
+export function init(){
+    var list;
+    fetch('/api').
+    then(res => res.json()).then(res=>list = res.msg)
+    return  {
+        type: initTodolist,
+        payload:{
+            data: list
+        }
+    };
 }

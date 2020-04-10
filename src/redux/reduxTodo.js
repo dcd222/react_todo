@@ -9,7 +9,9 @@ import * as actions from './action';
 // todo 类
 class ReduxTodo extends React.Component{
 
-
+    componentDidMount(){
+      actions.init();
+    }
     // 渲染列表
     todoList(props,delData){
         return(
@@ -39,6 +41,8 @@ class ReduxTodo extends React.Component{
       );
     }
   }
+
+  
 export default connect(//生成容器组件
     state => state.listReducer,//建立state和组件props映射关系
     dispatch => ({ actions: bindActionCreators(actions, dispatch) }),//把action绑定到connect中

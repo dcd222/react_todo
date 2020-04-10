@@ -20,7 +20,7 @@ let store = createStore(rootReducer);
 
 // saga使用
 
-// const sagaMiddleware = createSagaMiddleware()
+const sagaMiddleware = createSagaMiddleware()
 
 // const store = createStore(
 //     listReducer,
