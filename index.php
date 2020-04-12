@@ -1,26 +1,29 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 
-$servername = "127.0.0.1";
+$servername = "localhost";
 $username = "root";
 $password = "123123";
-
+$db = 'test';
 // 创建连接
-$conn = mysql_connect($servername, $username, $password);
+$conn = mysqli_connect($servername, $username, $password, $db);
 
 // 检测连接
+
+
+
 if(!$conn)
 {
     die("连接失败：" . mysqli_connect_error());
 }
 
-$select_db = mysql_select_db('test');
+// $select_db = mysqli_select_db('test');
 
-if (!$select_db) {
+// if (!$select_db) {
 
-    die("could not connect to the db:\n" .  mysql_error());
+//     die("could not connect to the db:\n" .  mysqli_error());
 
-}
+// }
 
 
 $type=$_REQUEST["type"];
@@ -43,11 +46,11 @@ class Msg
 function get (){
     $sql = "select * from todolist";
 
-    $res = mysql_query($sql);//执行sql语句
+    $res = mysqli_query($GLOBALS['conn'],$sql);//执行sql语句
 
     if (!$res) {
 
-        die("could get the res:\n" . mysql_error());
+        die("错误描述: " . mysqli_error($GLOBALS['conn']));
 
     }
 
@@ -57,25 +60,25 @@ function get (){
 } 
 
 function add ($listname){
-
-    $res = mysql_query("INSERT INTO todolist (listname) VALUES ($listname)");
-
+    $sql = "INSERT INTO todolist (listname)  VALUES ($listname)";
+    
+    $res = mysqli_query($GLOBALS['conn'],$sql);
+    
     if (!$res) {
 
-        die("could get the res:\n" . mysql_error());
+        die("错误描述: " . mysqli_error($GLOBALS['conn']));
 
     }
-
-    echo "{".'"code"'.":"."200"."}";
+    echo "{".'"id"'.":".mysqli_insert_id($GLOBALS['conn']).",".'"code"'.":"."200"."}";
 } 
 
 function del ($id){
 
-    $res = mysql_query("DELETE FROM todolist WHERE id = $id");
+    $res = mysqli_query($GLOBALS['conn'],"DELETE FROM todolist WHERE id = $id");
 
     if (!$res) {
 
-        die("could get the res:\n" . mysql_error());
+        die("错误描述: " . mysqli_error($GLOBALS['conn']));
 
     }
 
@@ -83,7 +86,7 @@ function del ($id){
 } 
 
 function process($res){
-    while ($row = mysql_fetch_array($res,MYSQL_ASSOC))
+    while ($row = mysqli_fetch_array($res,MYSQLI_ASSOC))
     {
         $msg = new Msg();
         $msg->id = $row["id"];
@@ -97,6 +100,6 @@ function process($res){
 
 //关闭数据库连接
 
-mysql_close($conn);
+mysqli_close($conn);
 
 ?>

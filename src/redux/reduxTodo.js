@@ -8,9 +8,8 @@ import * as actions from './action';
 
 // todo 类
 class ReduxTodo extends React.Component{
-
     componentDidMount(){
-      actions.init();
+      this.props.actions.init()
     }
     // 渲染列表
     todoList(props,delData){
@@ -31,6 +30,7 @@ class ReduxTodo extends React.Component{
     }
     render(){
       const {actions,toDoList,input}  = this.props;//将props中的actions和toDoLits取出来
+      console.log(this.props)
       return (
         <div className="App">
           <p className='title'>TO DO(redux)</p>

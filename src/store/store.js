@@ -1,5 +1,5 @@
 import {createStore,applyMiddleware,combineReducers} from "redux";
-import createSagaMiddleware from 'redux-saga'
+import thunkMiddleware  from 'redux-thunk';
 import {listReducer} from '../redux/reducer'
 import {mdReducer} from '../markdown/reducer'
 
@@ -16,20 +16,17 @@ import {mdReducer} from '../markdown/reducer'
 
 const rootReducer = combineReducers({mdReducer,listReducer});
 // 用来合并reducer
-let store = createStore(rootReducer);
 
-// saga使用
+const createStoreWithMdware = applyMiddleware(
+    thunkMiddleware,
+)(createStore);
 
-const sagaMiddleware = createSagaMiddleware()
+const store = createStoreWithMdware(rootReducer);
 
-// const store = createStore(
-//     listReducer,
-//   applyMiddleware(sagaMiddleware)
-// )
 
 // 监听store
-let unsubscribe = store.subscribe(() =>
-    console.log(store.getState())
-);
+// let unsubscribe = store.subscribe(() =>
+//     console.log(store.getState())
+// );
 
 export {store} 

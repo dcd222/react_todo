@@ -6,7 +6,6 @@ const initialState = {
 }
 
 export const mdReducer = function (state = initialState, action) {
-    console.log('This is mdReducer')
     switch (action.type) {
         case actions.mdText: {
             return {

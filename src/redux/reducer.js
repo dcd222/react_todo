@@ -1,6 +1,6 @@
 import * as actions from './action'
 
-let currentId = 2;
+// let currentId = 2;
 // 初始化数据
 const initialState = {
     toDoList: [
